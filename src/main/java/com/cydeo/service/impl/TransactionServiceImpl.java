@@ -27,8 +27,9 @@ public class TransactionServiceImpl implements TransactionService {
 
     AccountRepository accountRepository;
     TransactionRepository transactionRepository;
-    public TransactionServiceImpl(AccountRepository accountRepository) {
+    public TransactionServiceImpl(AccountRepository accountRepository, TransactionRepository transactionRepository) {
         this.accountRepository = accountRepository;
+        this.transactionRepository = transactionRepository;
     }
 
     @Override
