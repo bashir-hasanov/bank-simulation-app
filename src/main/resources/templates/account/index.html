@@ -40,14 +40,17 @@
             <td th:text="${account.balance}"></td>
             <td th:text="${account.accountType}"></td>
             <td th:text="${account.creationDate}"></td>
-            <td><a class="btn btn-danger" href="#">Delete</a></td>
+            <td>
+              <a th:if="${account.accountStatus.name() == 'ACTIVE'}" class="btn btn-danger" th:href="@{/delete/{id}(id=${account.id})}" >Delete</a>
+              <a th:if="${account.accountStatus.name() == 'DELETED'}" class="btn btn-danger disabled" th:href="@{/delete/{id}(id=${account.id})}" disabled>Delete</a>
+            </td>
             <td><a class="btn btn-success" href="#">Account Transaction</a></td>
           </tr>
           </tbody>
         </table>
       </div>
       <p class="my-5"><a th:href="@{/create-user}" href="#" class="btn btn-primary">Create Account<i class="fas fa-user-plus ml-2"></i></a></p>
-      <p class="my-5"><a href="#" class="btn btn-primary">Make Transfer<i class="fas fa-user-plus ml-2"></i></a></p>
+      <p class="my-5"><a th:href="@{/make-transfer}" class="btn btn-primary">Make Transfer<i class="fas fa-user-plus ml-2"></i></a></p>
     </div>
   </div>
 </div>
