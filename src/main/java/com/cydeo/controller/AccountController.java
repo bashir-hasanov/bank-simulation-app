@@ -7,6 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.Date;
 
 @Controller
 public class AccountController {
@@ -33,6 +36,16 @@ public class AccountController {
         model.addAttribute("account", Account.builder().build());
         model.addAttribute("accountTypes", AccountType.values());
         return "account/create-account";
+    }
+
+    // create a /create post method that creates account in the service
+    // then return the index page
+    @PostMapping("/create")
+    public String createAccount(@ModelAttribute("account") Account account) {
+
+        accountService.createNewAccount(account.getBalance(), new Date(),
+                account.getAccountType(), account.getUserId());
+        return "redirect:/index";
     }
 
 }
