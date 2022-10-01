@@ -1,5 +1,6 @@
 package com.cydeo.controller;
 
+import com.cydeo.model.Transaction;
 import com.cydeo.service.AccountService;
 import com.cydeo.service.TransactionService;
 import lombok.AllArgsConstructor;
@@ -19,7 +20,15 @@ public class TransactionController {
     @GetMapping("/make-transfer")
     public String makeTransfer(Model model) {
 
+        // 1. we need all accounts tp provide them as SENDER, RECEIVER
+        model.addAttribute("accounts", accountService.listAllAccount());
 
-        return "/transaction/make-transfer";
+        // 2. we need empty transaction object to get info from UI
+        model.addAttribute("transaction", Transaction.builder().build());
+
+        // 3. we need list of last 10 transactions
+        model.addAttribute("lastTransactions", transactionService.lastTransactionsList());
+        return "transaction/make-transfer";
+
     }
 }
