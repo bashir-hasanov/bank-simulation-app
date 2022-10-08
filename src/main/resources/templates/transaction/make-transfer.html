@@ -14,7 +14,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <div>
-                        <form th:object="${transaction}" action="#">
+                        <form th:object="${transaction}" th:action="@{/transfer}" method="post">
                             <div class="row">
                                 <div class="form-group blu-margin">
                                     <label for="sender" class="col-form-label">Sender</label>
@@ -35,12 +35,12 @@
         
                                 <div class="form-group blu-margin">
                                     <label for="amount" class="col-form-label">Amount</label>
-                                    <input type="text" class="form-control" id="amount" placeholder="Amount">
+                                    <input th:field="*{amount}" type="text" class="form-control" id="amount" placeholder="Amount">
                                 </div>
         
                                 <div class="form-group blu-margin">
                                     <label for="message" class="col-form-label">Message</label>
-                                    <input type="text" class="form-control" id="message" placeholder="Message">
+                                    <input th:field="*{message}" type="text" class="form-control" id="message" placeholder="Message">
                                 </div>
                             </div>
                             <div class="row">
@@ -62,16 +62,16 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr >
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                <tr th:each="lTransaction: ${lastTransactions}">
+                                    <td th:text="${lTransaction.sender}"></td>
+                                    <td th:text="${lTransaction.receiver}"></td>
+                                    <td th:text="${lTransaction.amount}"></td>
+                                    <td th:text="${lTransaction.creationDate}"></td>
+                                    <td th:text="${lTransaction.message}"></td>
                                 </tr>
                             </tbody>
                         </table>
-                        <p class="my-5"><a href="#" class="btn btn-primary">Home Page</a></p>
+                        <p class="my-5"><a th:href="@{/index}" class="btn btn-primary">Home Page</a></p>
                     </div>
                 </div>
             </div>
