@@ -37,7 +37,7 @@ public class AccountController {
     @GetMapping("/create-user")
     public String getCreateUser(Model model) {
 
-        model.addAttribute("account", AccountDTO.builder().build());
+        model.addAttribute("account", new AccountDTO());
         model.addAttribute("accountTypes", AccountType.values());
         return "account/create-account";
     }

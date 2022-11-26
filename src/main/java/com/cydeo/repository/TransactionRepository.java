@@ -29,7 +29,7 @@ public class TransactionRepository {
                 .collect(Collectors.toList());
     }
 
-    public List<TransactionDTO> findTransactionsById(UUID id) {
+    public List<TransactionDTO> findTransactionsById(Long id) {
 
         return transactionDTOList.stream()
                 .filter(transactionDTO -> transactionDTO.getSender().equals(id) ||

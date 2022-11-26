@@ -31,7 +31,7 @@ public class TransactionController {
         model.addAttribute("accounts", accountService.listAllAccount());
 
         // 2. we need empty transaction object to get info from UI
-        model.addAttribute("transaction", TransactionDTO.builder().build());
+        model.addAttribute("transaction", new TransactionDTO());
 
         // 3. we need list of last 10 transactions
         model.addAttribute("lastTransactions", transactionService.lastTransactionsList());
@@ -49,8 +49,8 @@ public class TransactionController {
             return "transaction/make-transfer";
         }
 
-        AccountDTO sender = accountService.retrieveById(transactionDTO.getSender());
-        AccountDTO receiver = accountService.retrieveById(transactionDTO.getReceiver());
+        AccountDTO sender = accountService.retrieveById(transactionDTO.getSender().getId());
+        AccountDTO receiver = accountService.retrieveById(transactionDTO.getReceiver().getId());
         transactionService.makeTransfer(sender, receiver, transactionDTO.getAmount(),
                 new Date(), transactionDTO.getMessage());
 

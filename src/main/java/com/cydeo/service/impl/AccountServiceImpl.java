@@ -22,9 +22,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public AccountDTO createNewAccount(BigDecimal balance, Date creationDate, AccountType accountType, Long userId) {
-        AccountDTO accountDTO = AccountDTO.builder().id(UUID.randomUUID())
-                .userId(userId).accountType(accountType).balance(balance)
-                .creationDate(creationDate).accountStatus(AccountStatus.ACTIVE).build();
+        AccountDTO accountDTO = new AccountDTO();
         return accountRepository.save(accountDTO);
 
     }

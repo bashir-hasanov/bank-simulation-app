@@ -44,9 +44,7 @@ public class TransactionServiceImpl implements TransactionService {
         we need to create Transaction object and save/return it
         Please create needed classes/methods for this step, save the transactions
          */
-            TransactionDTO transactionDTO = TransactionDTO.builder().amount(amount)
-                    .sender(sender.getId()).receiver(receiver.getId())
-                    .creationDate(creationDate).message(message).build();
+            TransactionDTO transactionDTO = new TransactionDTO();
 
             return transactionRepository.save(transactionDTO);
 

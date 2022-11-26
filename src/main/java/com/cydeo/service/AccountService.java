@@ -6,7 +6,6 @@ import com.cydeo.enums.AccountType;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 public interface AccountService {
 
@@ -16,5 +15,5 @@ public interface AccountService {
 
     void deleteAccount(Long id);
 
-    AccountDTO retrieveById(AccountDTO sender);
+    AccountDTO retrieveById(Long id);
 }

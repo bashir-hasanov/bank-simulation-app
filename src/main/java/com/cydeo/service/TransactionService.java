@@ -6,7 +6,6 @@ import com.cydeo.dto.TransactionDTO;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 public interface TransactionService {
 
