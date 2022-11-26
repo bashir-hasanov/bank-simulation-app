@@ -1,8 +1,8 @@
 package com.cydeo.service.impl;
 
+import com.cydeo.dto.AccountDTO;
 import com.cydeo.enums.AccountStatus;
 import com.cydeo.enums.AccountType;
-import com.cydeo.model.Account;
 import com.cydeo.repository.AccountRepository;
 import com.cydeo.service.AccountService;
 import org.springframework.stereotype.Component;
@@ -21,27 +21,27 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Account createNewAccount(BigDecimal balance, Date creationDate, AccountType accountType, Long userId) {
-        Account account = Account.builder().id(UUID.randomUUID())
+    public AccountDTO createNewAccount(BigDecimal balance, Date creationDate, AccountType accountType, Long userId) {
+        AccountDTO accountDTO = AccountDTO.builder().id(UUID.randomUUID())
                 .userId(userId).accountType(accountType).balance(balance)
                 .creationDate(creationDate).accountStatus(AccountStatus.ACTIVE).build();
-        return accountRepository.save(account);
+        return accountRepository.save(accountDTO);
 
     }
 
     @Override
-    public List<Account> listAllAccount() {
+    public List<AccountDTO> listAllAccount() {
         return accountRepository.findAll();
     }
 
     @Override
-    public void deleteAccount(UUID id) {
-        Account account = accountRepository.findById(id);
-        account.setAccountStatus(AccountStatus.DELETED);
+    public void deleteAccount(Long id) {
+        AccountDTO accountDTO = accountRepository.findById(id);
+        accountDTO.setAccountStatus(AccountStatus.DELETED);
     }
 
     @Override
-    public Account retrieveById(UUID id) {
+    public AccountDTO retrieveById(Long id) {
         return accountRepository.findById(id);
     }
 }
