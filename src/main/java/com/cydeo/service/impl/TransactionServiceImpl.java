@@ -116,18 +116,22 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public List<TransactionDTO> findAllTransactions() {
         List<Transaction> transactionList = transactionRepository.findAll();
-
         return transactionList.stream().map(transactionMapper :: convertToDTO).collect(Collectors.toList());
     }
 
     @Override
     public List<TransactionDTO> lastTransactionsList() {
-        return transactionRepository.lastTransaction();
+        // we want to list latest 10 transactions
+        // write a native query to get the result for last 10 transactions
+        // then convert it to dto and return it
+        return transactionRepository.findLastTenTransactions()
+                .stream().map(transactionMapper :: convertToDTO).collect(Collectors.toList());
     }
 
     @Override
     public List<TransactionDTO> findTransactionListById(Long id) {
-
-        return transactionRepository.findTransactionsById(id);
+        // write a JPQL query to retrieve list of Transactions by ID
+        return transactionRepository.findTransactionListById(id)
+                .stream().map(transactionMapper :: convertToDTO).collect(Collectors.toList());
     }
 }
