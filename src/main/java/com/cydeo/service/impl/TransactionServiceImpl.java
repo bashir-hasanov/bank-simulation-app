@@ -1,14 +1,17 @@
 package com.cydeo.service.impl;
 
 import com.cydeo.dto.AccountDTO;
+import com.cydeo.entity.Transaction;
 import com.cydeo.enums.AccountType;
 import com.cydeo.exception.AccountOwnershipException;
 import com.cydeo.exception.BadRequestException;
 import com.cydeo.exception.BalanceNotSufficientException;
 import com.cydeo.exception.UnderConstructionException;
 import com.cydeo.dto.TransactionDTO;
+import com.cydeo.mapper.TransactionMapper;
 import com.cydeo.repository.AccountRepository;
 import com.cydeo.repository.TransactionRepository;
+import com.cydeo.service.AccountService;
 import com.cydeo.service.TransactionService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -17,6 +20,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Component
 public class TransactionServiceImpl implements TransactionService {
@@ -24,12 +28,12 @@ public class TransactionServiceImpl implements TransactionService {
     @Value("${under_construction}")
     private boolean underConstruction;
 
-    AccountRepository accountRepository;
+    AccountService accountService;
     TransactionRepository transactionRepository;
-    public TransactionServiceImpl(AccountRepository accountRepository, TransactionRepository transactionRepository) {
-        this.accountRepository = accountRepository;
-        this.transactionRepository = transactionRepository;
-    }
+    TransactionMapper transactionMapper;
+
+
+
 
     @Override
     public TransactionDTO makeTransfer(AccountDTO sender, AccountDTO receiver,
@@ -111,7 +115,9 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public List<TransactionDTO> findAllTransactions() {
-        return transactionRepository.findAll();
+        List<Transaction> transactionList = transactionRepository.findAll();
+
+        return transactionList.stream().map(transactionMapper :: convertToDTO).collect(Collectors.toList());
     }
 
     @Override
