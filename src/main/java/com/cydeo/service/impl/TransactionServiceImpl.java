@@ -36,7 +36,7 @@ public class TransactionServiceImpl implements TransactionService {
 
 
     @Override
-    public TransactionDTO makeTransfer(AccountDTO sender, AccountDTO receiver,
+    public void makeTransfer(AccountDTO sender, AccountDTO receiver,
                                        BigDecimal amount, Date creationDate, String message) {
 
         if (!underConstruction) {
@@ -48,12 +48,12 @@ public class TransactionServiceImpl implements TransactionService {
         we need to create Transaction object and save/return it
         Please create needed classes/methods for this step, save the transactions
          */
+            // we need to create DTO after all validations, then convert it to entity and save to DB
             TransactionDTO transactionDTO = new TransactionDTO();
 
-            return transactionRepository.save(transactionDTO);
+             transactionRepository.save(transactionMapper.convertToEntity(transactionDTO));
 
         } else {
-
             throw new UnderConstructionException("App is under construction, try again later.");
         }
 
@@ -64,6 +64,18 @@ public class TransactionServiceImpl implements TransactionService {
             //make transaction
             sender.setBalance(sender.getBalance().subtract(amount));
             receiver.setBalance(receiver.getBalance().add(amount));
+
+            // Get the DTO from DB for both sender and receiver, update balance and save it
+            // create accountService updateAccount method to save it
+          AccountDTO senderAcc = accountService.retrieveById(sender.getId());
+          senderAcc.setBalance(sender.getBalance());
+          // save again to DB
+            accountService.updateAccount(senderAcc);
+
+            AccountDTO receiverAcc = accountService.retrieveById(receiver.getId());
+            receiverAcc.setBalance(receiver.getBalance());
+            accountService.updateAccount(receiverAcc);
+
         } else {
             //not enough balance
             throw new BalanceNotSufficientException("Balance is not sufficient for this transfer!");
@@ -110,7 +122,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     private AccountDTO findAccountById(Long id) {
-       return accountRepository.findById(id);
+       return accountService.retrieveById(id);
     }
 
     @Override

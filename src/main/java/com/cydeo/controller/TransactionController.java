@@ -28,10 +28,10 @@ public class TransactionController {
     public String makeTransfer(Model model) {
 
         // 1. we need all accounts tp provide them as SENDER, RECEIVER
-        model.addAttribute("accounts", accountService.listAllAccount());
+        model.addAttribute("accounts", accountService.listAllActiveAccounts());
 
         // 2. we need empty transaction object to get info from UI
-        model.addAttribute("transaction", new TransactionDTO());
+        model.addAttribute("transactionDTO", new TransactionDTO());
 
         // 3. we need list of last 10 transactions
         model.addAttribute("lastTransactions", transactionService.lastTransactionsList());
@@ -42,10 +42,10 @@ public class TransactionController {
     //write a post method that takes transaction object from the method above,
     //complete the make transfer and return the same page
     @PostMapping("/transfer")
-    public String saveTransfer(@Valid @ModelAttribute("transaction") TransactionDTO transactionDTO, BindingResult bindingResult, Model model) {
+    public String saveTransfer(@Valid @ModelAttribute("transactionDTO") TransactionDTO transactionDTO, BindingResult bindingResult, Model model) {
 
         if(bindingResult.hasErrors()) {
-            model.addAttribute("accounts", accountService.listAllAccount());
+            model.addAttribute("accounts", accountService.listAllActiveAccounts());
             return "transaction/make-transfer";
         }
 

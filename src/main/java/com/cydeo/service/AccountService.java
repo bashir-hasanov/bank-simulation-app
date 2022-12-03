@@ -19,4 +19,5 @@ public interface AccountService {
 
     List<AccountDTO> listAllActiveAccounts();
 
+    void updateAccount(AccountDTO accountDTO);
 }
